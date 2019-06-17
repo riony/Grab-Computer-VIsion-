@@ -283,7 +283,7 @@ if __name__ == "__main__":
     os.chdir(args.filepath)
     #create network    
     model = create_cnn(128, 128, 1)
-    model.compile(optimizer='adadelta', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     model.summary()
     #loading training data
     train_info = load_data('car_devkit', 'cars_train_annos') 
@@ -323,7 +323,7 @@ if __name__ == "__main__":
 
     gc.collect()
     #training network
-    model.fit_generator(data_gen(train_dataset,train_classes,len(meta_info)), steps_per_epoch=len(train_classes), epochs=20, validation_data=(test_dataset[:1000], test_classes[:1000]), max_queue_size=100, workers=1, use_multiprocessing=False, verbose = 1)
+    model.fit_generator(data_gen(train_dataset,train_classes,len(meta_info)), steps_per_epoch=len(train_classes), epochs=100, validation_data=(test_dataset[:1000], test_classes[:1000]), max_queue_size=100, workers=1, use_multiprocessing=False, verbose = 1)
     gc.collect()
     #testing network on evaluation dataset, img number 1001 to 8041 of the testing dataset
     score = model.evaluate(test_dataset[1001:], test_classes[1001:], verbose=1)
