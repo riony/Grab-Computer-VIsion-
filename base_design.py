@@ -256,9 +256,9 @@ def test_data_process(folder_path, batch_size, width, height, filtering): # func
     return train_img_stack, test_img_stack, train_class, test_class
 
 def hot_encode(dataset, num_classes): #function for hot encoding the dataset the sparse categorical format for softmax activation 
-    data_classes = np.zeros( (len(dataset),num_classes) , dtype=np.int)
+    data_classes = np.zeros( (len(dataset), num_classes) , dtype=np.int)
     for idx in range(len(dataset)): 
-        data_classes[idx, dataset(idx)-1] = 1
+        data_classes[idx, dataset[idx]-1 ] = 1
     return data_classes 
 
 def data_gen(dataset, classes): #generator for network input #generator improves efficency and RAM management since GPU training is used 
@@ -309,12 +309,15 @@ if __name__ == "__main__":
 
     train_classes = hot_encode(train_classes, len(meta_info)) #hot encode class dataset for network training
     print(np.array(train_classes).shape)  
-    print(train_classes)
     test_classes = hot_encode(test_classes,len(meta_info))
     print(np.array(test_classes).shape)
-    print(test_classes)
 
-    print(np.array(test_classes).shape)
+    test_dataset = data_reduction(test_dataset)
+    train_dataset = data_reduction(train_dataset)
+    print('final')
+    print(np.array(train_dataset).shape)
+    print(np.array(test_dataset).shape)
+
     # save_image(str('test')+".jpg", new_img)
 
     gc.collect()
