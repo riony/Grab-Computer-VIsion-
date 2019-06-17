@@ -239,9 +239,7 @@ def test_data_process(folder_path, batch_size, width, height, filtering): # func
         else:
             train_class[train_class_count] = test_info[file_idx][5]
             train_class_count = train_class_count +1
-
-    text = test_info[45][0][:0] + test_info[45][0][8:] 
-    test_img_stack = np.zeros( (8041,128,128,3) , dtype=np.float)
+    test_img_stack = np.zeros( (8041,128,128,3) , dtype=np.float) # creating and sorting test and training class datasets
     train_img_stack = np.zeros((8144,128,128,3), dtype=np.float)
     train_count = 0
     test_count = 0 
@@ -250,21 +248,16 @@ def test_data_process(folder_path, batch_size, width, height, filtering): # func
             text = test_info[file_idx][0][:0] + test_info[file_idx][0][8:] 
             test_img_stack[test_count, :, :, :] = jpg_crop_grey_arr(text, width, height)
             test_count = test_count + 1
-            # print('test')
-            # print(file_idx)
         else : 
             text = test_info[file_idx][0][:0] + test_info[file_idx][0][8:] 
             train_img_stack[train_count,:,:,:] = jpg_crop_grey_arr(text, width, height)
             train_count = train_count + 1
-            # print('train')
-            # print(file_idx)
-
     os.chdir('..')
     return train_img_stack, test_img_stack, train_class, test_class
 
 def hot_encode(dataset, num_classes): #function for hot encoding the dataset the sparse categorical format for softmax activation 
     data_classes = np.zeros( (len(dataset),num_classes) , dtype=np.int)
-    for idx in range(dataset): 
+    for idx in range(len(dataset)): 
         data_classes[idx, dataset(idx)] = 1
     return data_classes 
 
@@ -287,12 +280,10 @@ if __name__ == "__main__":
     ap.add_argument('-f', '--filepath', required=True, help="specify filepath")
     args = ap.parse_args()
     os.chdir(args.filepath)
-
+    #create network    
     model = create_cnn(128, 128, 1)
     model.compile(optimizer='adadelta', loss='categorical_crossentropy', metrics=['accuracy'])
     model.summary()
-
-
     #loading training data
     train_info = load_data('car_devkit', 'cars_train_annos') 
     print(np.array(train_info).shape)
@@ -316,32 +307,20 @@ if __name__ == "__main__":
     print(np.array(train_classes).shape)
     print(np.array(test_classes).shape)
 
-    train_classes = hot_encode(train_classes, len(meta_info))
-    print(np.array(train_classes).shape)
+    train_classes = hot_encode(train_classes, len(meta_info)) #hot encode class dataset for network training
+    print(np.array(train_classes).shape)  
     print(train_classes)
     test_classes = hot_encode(test_classes,len(meta_info))
     print(np.array(test_classes).shape)
     print(test_classes)
 
-    # print('dataset 2 processing')
-    # train_dataset_2 = data_load('cars_train', 4, 128, 128)
-    # train_classes_2 = class_load(train_info)
-    # print(np.array(train_dataset_2).shape)
-    # print(np.array(train_classes_2).shape)
-
-    test_dataset = data_reduction(test_dataset)
-    # train_datset = np.concatenate((train_datset,train_dataset_2), axis = 0 )
-    train_dataset = data_reduction(train_dataset)
-    # train_classes = np.concatenate((train_classes,train_classes_2), axis = 0 )
-    print('final')
-    print(np.array(train_dataset).shape)
-    print(np.array(test_dataset).shape)
-    print(np.array(train_classes).shape)
     print(np.array(test_classes).shape)
     # save_image(str('test')+".jpg", new_img)
 
     gc.collect()
-
+    #training network
     model.fit_generator(data_gen(train_dataset,train_classes), steps_per_epoch=len(train_classes), epochs=20, validation_data=(test_dataset[:1000], test_classes[:1000]), max_queue_size=100, workers=1, use_multiprocessing=False, verbose = 1)
     gc.collect()
-
+    #testing network on evaluation dataset, img number 1001 to 8041 of the testing dataset
+    score = model.evaluate(test_dataset[1001:], test_classes[1001:], verbose=1)
+    print('\n', 'Test accuracy:', score[1])
