@@ -36,13 +36,13 @@ def create_cnn(width, height, depth): #CNN design modelled after googlenet incep
     conv1 = Conv2D(32, kernel_size=(3, 3), strides=1, data_format="channels_last", padding='same', activation='relu')(conv1)
     # Start of first inception module 
     intconv1_1 = Conv2D(64, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(conv1)    
-    intconv1_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv1_1)
+    intconv1_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv1_1)
 
     intconv1_2 = Conv2D(64, kernel_size=(3, 3), strides=1, data_format="channels_last", padding='same', activation='relu')(conv1)
-    intconv1_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv1_2)
+    intconv1_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv1_2)
 
     intconv1_3 = Conv2D(64, kernel_size=(5, 5), strides=1, data_format="channels_last", padding='same', activation='relu')(conv1)
-    intconv1_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv1_3)
+    intconv1_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv1_3)
 
     intconv1_4 = MaxPooling2D(pool_size=(3, 3), strides=1, data_format="channels_last", padding='same')(conv1)
 
@@ -53,13 +53,13 @@ def create_cnn(width, height, depth): #CNN design modelled after googlenet incep
     conv2 = MaxPooling2D(pool_size=(3, 3), strides=2, data_format="channels_last", padding='same')(conv2)
     # Start of Second inception module 
     intconv2_1 = Conv2D(64, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(conv2)
-    intconv2_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv2_1)
+    intconv2_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv2_1)
 
     intconv2_2 = Conv2D(64, kernel_size=(3, 3), strides=1, data_format="channels_last", padding='same', activation='relu')(conv2)
-    intconv2_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv2_2)
+    intconv2_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv2_2)
 
     intconv2_3 = Conv2D(64, kernel_size=(5, 5), strides=1, data_format="channels_last", padding='same', activation='relu')(conv2)
-    intconv2_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv2_3)
+    intconv2_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv2_3)
 
     intconv2_4 = MaxPooling2D(pool_size=(3, 3), strides=1, data_format="channels_last", padding='same')(conv2)
 
@@ -70,13 +70,13 @@ def create_cnn(width, height, depth): #CNN design modelled after googlenet incep
     conv3 = MaxPooling2D(pool_size=(3, 3), strides=2, data_format="channels_last", padding='same')(conv3)
     # Start of third inception module 
     intconv3_1 = Conv2D(64, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(conv3)
-    intconv3_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv3_1)
+    intconv3_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv3_1)
 
     intconv3_2 = Conv2D(64, kernel_size=(3, 3), strides=1, data_format="channels_last", padding='same', activation='relu')(conv3)
-    intconv3_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv3_2)
+    intconv3_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv3_2)
 
     intconv3_3 = Conv2D(64, kernel_size=(5, 5), strides=1, data_format="channels_last", padding='same', activation='relu')(conv3)
-    intconv3_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv3_3)
+    intconv3_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv3_3)
 
     intconv3_4 = MaxPooling2D(pool_size=(3, 3), strides=1, data_format="channels_last", padding='same')(conv3)
 
@@ -87,13 +87,13 @@ def create_cnn(width, height, depth): #CNN design modelled after googlenet incep
     conv4 = MaxPooling2D(pool_size=(3, 3), strides=2, data_format="channels_last", padding='same')(conv4)
     # Start of Fourth inception module 
     intconv4_1 = Conv2D(64, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(conv4)
-    intconv4_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv4_1)
+    intconv4_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv4_1)
 
     intconv4_2 = Conv2D(64, kernel_size=(3, 3), strides=1, data_format="channels_last", padding='same', activation='relu')(conv4)
-    intconv4_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv4_2)
+    intconv4_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv4_2)
 
     intconv4_3 = Conv2D(64, kernel_size=(5, 5), strides=1, data_format="channels_last", padding='same', activation='relu')(conv4)
-    intconv4_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv4_3)
+    intconv4_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv4_3)
 
     intconv4_4 = MaxPooling2D(pool_size=(3, 3), strides=1, data_format="channels_last", padding='same')(conv4)
 
@@ -104,13 +104,13 @@ def create_cnn(width, height, depth): #CNN design modelled after googlenet incep
     conv5 = MaxPooling2D(pool_size=(3, 3), strides=2, data_format="channels_last", padding='same')(conv5)
     # Start of fifth inception module 
     intconv5_1 = Conv2D(64, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(conv5)
-    intconv5_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv5_1)
+    intconv5_1 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv5_1)
 
     intconv5_2 = Conv2D(64, kernel_size=(3, 3), strides=1, data_format="channels_last", padding='same', activation='relu')(conv5)
-    intconv5_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv5_2)
+    intconv5_2 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv5_2)
 
     intconv5_3 = Conv2D(64, kernel_size=(5, 5), strides=1, data_format="channels_last", padding='same', activation='relu')(conv5)
-    intconv5_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='linear')(intconv5_3)
+    intconv5_3 = Conv2D(16, kernel_size=(1, 1), strides=1, data_format="channels_last", padding='same', activation='relu')(intconv5_3)
 
     intconv5_4 = MaxPooling2D(pool_size=(3, 3), strides=1, data_format="channels_last", padding='same')(conv5)
 
