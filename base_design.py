@@ -258,7 +258,7 @@ def test_data_process(folder_path, batch_size, width, height, filtering): # func
 def hot_encode(dataset, num_classes): #function for hot encoding the dataset the sparse categorical format for softmax activation 
     data_classes = np.zeros( (len(dataset),num_classes) , dtype=np.int)
     for idx in range(len(dataset)): 
-        data_classes[idx, dataset(idx)] = 1
+        data_classes[idx, dataset(idx)-1] = 1
     return data_classes 
 
 def data_gen(dataset, classes): #generator for network input #generator improves efficency and RAM management since GPU training is used 
