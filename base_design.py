@@ -261,13 +261,14 @@ def hot_encode(dataset, num_classes): #function for hot encoding the dataset the
         data_classes[idx, dataset[idx]-1 ] = 1
     return data_classes 
 
-def data_gen(dataset, classes): #generator for network input #generator improves efficency and RAM management since GPU training is used 
+def data_gen(dataset, classes, num_classes): #generator for network input #generator improves efficency and RAM management since GPU training is used 
     while True: 
-        class_set = np.zeros((8), dtype=np.int)
+        class_set = np.zeros((8, num_classes), dtype=np.int)
         for idx in range(len(dataset)): 
             img_arr = dataset[idx, : , : , :]
             img_arr = aug_data(img_arr)
-            class_set[:] = classes[idx]
+            for class_idx in range(8) : 
+                class_set[class_idx, :] = classes[idx, :]
             yield img_arr, class_set
 
 def data_reduction(dataset): #reduces images to one channel 
@@ -322,7 +323,7 @@ if __name__ == "__main__":
 
     gc.collect()
     #training network
-    model.fit_generator(data_gen(train_dataset,train_classes), steps_per_epoch=len(train_classes), epochs=20, validation_data=(test_dataset[:1000], test_classes[:1000]), max_queue_size=100, workers=1, use_multiprocessing=False, verbose = 1)
+    model.fit_generator(data_gen(train_dataset,train_classes,len(meta_info)), steps_per_epoch=len(train_classes), epochs=20, validation_data=(test_dataset[:1000], test_classes[:1000]), max_queue_size=100, workers=1, use_multiprocessing=False, verbose = 1)
     gc.collect()
     #testing network on evaluation dataset, img number 1001 to 8041 of the testing dataset
     score = model.evaluate(test_dataset[1001:], test_classes[1001:], verbose=1)
